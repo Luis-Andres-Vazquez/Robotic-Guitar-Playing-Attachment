@@ -551,11 +551,14 @@ int rot2trans(int encoderTop, int rotDist){
    return round(totalRotDist/encodedVal_per_rot*dist_per_rot);
 }
 
-
+//This function checks that the servo carts are within a range from the desired location
+// The range is set by the minimum speed at which we can run the DC motors reliably 
 bool range(int PWMs[MOTORNUM+1]){
   delayMicroseconds(800); //NEED THIS DELAY IN ORDER TO READ PWM speeds w/o messing it up due to the square waves
   int total =0;
   for (int a=0;a<MOTORNUM;a++){
+    // check for when all the speeds given by the PID controllers are smaller
+    // than the minimum speed at which point we're in the desired positions range
     if (abs(PWMs[a]) <= minSpeed){
       total++;
     }
